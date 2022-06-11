@@ -3,11 +3,14 @@ import "express-async-errors";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
 
-import { currentUserRouter } from "./routes/current-user";
-import { signOutRouter } from "./routes/sign-out";
-import { signUpRouter } from "./routes/sign-up";
-import { signInRouter } from "./routes/sign-in";
-import { errorHandler, NotFoundError } from "@baniyatickets/common_lib";
+import { createTicketRouter } from "./routes/new-ticket";
+import { showTicketRouter } from "./routes/show-ticket";
+import { UpdateTicketRouter } from "./routes/update-ticket";
+import {
+  errorHandler,
+  NotFoundError,
+  currentUser,
+} from "@baniyatickets/common_lib";
 
 const app = express();
 app.set("trust proxy", true);
@@ -18,12 +21,11 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
-
+app.use(currentUser);
 // routes
-app.use(currentUserRouter);
-app.use(signInRouter);
-app.use(signOutRouter);
-app.use(signUpRouter);
+app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(UpdateTicketRouter);
 
 // routes not found
 app.all("*", async (req, res) => {

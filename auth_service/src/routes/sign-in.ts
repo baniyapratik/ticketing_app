@@ -2,8 +2,7 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 
-import { BadRequestError } from "../../../common_lib/src/errors/bad-request-error";
-import { validateRequest } from "../../../common_lib/src/middlewares/validate-request";
+import { BadRequestError, validateRequest } from "@baniyatickets/common_lib";
 import { User } from "../models/user";
 import { Password } from "../services/password";
 
@@ -22,6 +21,7 @@ router.post(
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
+
     if (!existingUser) {
       throw new BadRequestError("Invalid Credentials");
     }

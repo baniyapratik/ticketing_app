@@ -9,7 +9,15 @@ build:
     push: false
   artifacts:
     - image: baniyapratik/auth
-      context: auth
+      context: auth_service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: baniyapratik/ticket_service
+      context: ticket_service
       docker:
         dockerfile: Dockerfile
       sync:
