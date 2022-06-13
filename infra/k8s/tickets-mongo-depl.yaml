@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tickets-mongo-deployment
+  name: tickets-mongo-depl
 spec:
   replicas: 1
   selector:
@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tickets-mongo-service
+  name: tickets-mongo-srv
 spec:
   selector:
     app: tickets-mongo

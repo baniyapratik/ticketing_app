@@ -60,3 +60,11 @@ Shared Library:
   - git submodule
   - publish to npm registry
     - NPM public registry with Organization
+
+Events concurrency issues:
+
+1. One listener might run more quickly than other
+2. Listener can fail to process the event
+3. NAT might think a client is still alive when it is dead
+4. We might receive the same event twice (While one has received the event but after 30 seconds the event goes to the other listener to process).
+

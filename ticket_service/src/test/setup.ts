@@ -3,6 +3,9 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { app } from "../app";
 import jwt from "jsonwebtoken";
+import { randomBytes } from "crypto";
+
+jest.mock("../nats-wrapper");
 
 declare global {
   var signUp: () => Promise<string[]>;
@@ -12,7 +15,7 @@ global.signIn = () => {
   let x = Math.floor(Math.random() * 100 + 1);
   // Build JWT payload { id, email}
   const payload = {
-    id: x,
+    id: randomBytes(4).toString("hex"),
     email: "test@test.com",
   };
 
@@ -56,6 +59,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
   for (let collection of collections) {
     await collection.deleteMany({});
